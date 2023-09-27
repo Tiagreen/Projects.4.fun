@@ -1,0 +1,38 @@
+def calculadora_de_equidade(cartas_comunitarias, cartas_de_mao):
+    # Crie um baralho com as cartas conhecidas
+    baralho = set(cartas_comunitarias + cartas_de_mao)
+    
+    # Mapeie os valores das cartas para números
+    valores = {'2': 2, '3': 3, '4': 4, '5': 5, '6': 6, '7': 7, '8': 8, '9': 9, 'T': 10, 'J': 11, 'Q': 12, 'K': 13, 'A': 14}
+    
+    # Inicialize contadores para rastrear vitórias, empates e derrotas
+    vitorias = 0
+    empates = 0
+    derrotas = 0
+    
+    # Simule todas as combinações possíveis para os oponentes
+    for oponente_cartas in baralho:
+        for minha_carta in baralho - {oponente_cartas}:
+            minha_pontuacao = valores[cartas_de_mao[0][0]] + valores[cartas_de_mao[1][0]]
+            oponente_pontuacao = valores[oponente_cartas[0]] + valores[oponente_cartas[1]]
+            
+            # Compare as pontuações para determinar o resultado
+            if minha_pontuacao > oponente_pontuacao:
+                vitorias += 1
+            elif minha_pontuacao == oponente_pontuacao:
+                empates += 1
+            else:
+                derrotas += 1
+    
+    # Calcule a equidade em porcentagem
+    total = vitorias + empates + derrotas 
+    equidade = (vitorias + empates / 2) / total * 100
+    
+    return equidade
+
+# Exemplo de uso
+cartas_comunitarias = ['4h', '5d', '6c']
+cartas_de_mao = ['As', 'Kd']
+
+equidade = calculadora_de_equidade(cartas_comunitarias, cartas_de_mao)
+print(f"Equidade: {equidade:.2f}%")
